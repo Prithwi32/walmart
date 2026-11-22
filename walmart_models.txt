@@ -1,0 +1,83 @@
+user{
+  walmart_id string pk
+  password string
+  username string
+  email string
+  phone string
+  address string
+  dno number
+  role string fk - Role
+}
+
+department{
+  id number
+  name string
+  description string
+  id < user.dno
+}
+
+
+Role {
+  MANAGER
+  WORKER
+  DRIVER
+  SUPERVISOR
+}
+
+parking_slot{
+  id number pk
+  section number
+  name? string
+}
+
+trail{
+  id string pk
+  license_number string
+  max_volume number
+  mileage number           
+  created_at datetime
+  updated_at datetime
+}
+
+shipment{
+  id string pk
+  description string
+  weight number
+  volume number
+  origin string
+  destination string
+  status string
+  departure_time datetime
+  arrival_time datetime
+  current_location string
+  qrcode string
+  trail_id string fk - trail.id
+  assigned_driver string fk < user.walmart_id
+  assigned_supervisor string fk < user.walmart_id
+  created_at datetime
+  updated_at datetime
+}
+
+supervisor_worker{
+  id number pk
+  supervisor_id string fk < user.walmart_id
+  worker_id string fk < user.walmart_id 
+  department_id number fk < department.id 
+}
+
+manager_supervisor{
+  id number pk
+  manager_id string fk < user.walmart_id 
+  supervisor_id string fk < user.walmart_id 
+  department_id number fk < department.id 
+}
+
+
+notification{
+  id number pk
+  sender_id string fk < user.walmart_id 
+  receiver_id string fk < user.walmart_id 
+  message_content string 
+  created_at datetime
+  read boolean 
+}
